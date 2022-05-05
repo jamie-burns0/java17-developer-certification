@@ -40,6 +40,14 @@ public class CoreApisTest {
                     and the Word was with God.""";
                 String b = "In the beginning was the Word\n".concat("and the Word was with God.").intern();
                 return a == b;}, true),
+            new Test(() -> {
+                // lifted from the Java Language Specification, Example 3.10.5-1. String Literals
+                String hello = "Hello", lo = "lo";
+                var a = (hello == "Hello"); // true
+                var b = (hello == ("Hel"+"lo")); //true
+                var c = (hello == ("Hel"+lo)); // FALSE: lo is a variable not a string literal
+                var d = (hello == ("Hel"+lo).intern()); // true
+                return true;}, true),                
             new Test(() -> {return 0;}, 0),
             new Test(() -> {return 0;}, 0),
             new Test(() -> {return 0;}, 0),
@@ -62,13 +70,11 @@ public class CoreApisTest {
     }
 
     private int a() {
-        int a = 0;
-        int d = 5;
-        int e = 0;
-        for (int b = 0, c = 99; (e = (c - b) % a) == 5; b++, c--) {
-            // do nothing
-        }
-        System.out.println("e="+ e);
-        return e;
+        String hello = "Hello", lo = "lo";
+        boolean a = (hello == "Hello"); // true
+        System.out.println(hello == ("Hel"+"lo"));
+        System.out.println(hello == ("Hel"+lo));
+        System.out.println(hello == ("Hel"+lo).intern());
+        return 1;
     }
 }
