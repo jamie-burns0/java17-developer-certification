@@ -48,7 +48,10 @@ public class CoreApisTest {
                 var c = (hello == ("Hel"+lo)); // FALSE: lo is a variable not a string literal
                 var d = (hello == ("Hel"+lo).intern()); // true
                 return true;}, true),                
-            new Test(() -> {return 0;}, 0),
+            new Test(() -> {
+                byte[] a = {(byte) 0xff, 0100, 0b0011};
+                int b = a.length;
+                return a[2] == (byte)b;}, true),
             new Test(() -> {return 0;}, 0),
             new Test(() -> {return 0;}, 0),
             new Test(() -> {return 0;}, 0),
