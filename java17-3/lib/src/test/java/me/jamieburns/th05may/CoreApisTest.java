@@ -26,12 +26,20 @@ public class CoreApisTest {
                 return a == b;}, true),
             new Test(() -> {
                 // strings a and b are computed at RUNTIME - because of concat() - and while the same for equals(),
-                // are not referencing the same string for the purposes of ==
+                // DO NOT reference the same string for the purposes of ==
                 String a = """
                     In the beginning was the Word
                     and the Word was with God.""";
                 String b = "In the beginning was the Word\n".concat("and the Word was with God.");
                 return a == b;}, false),
+            new Test(() -> {
+                // strings a and b are computed at RUNTIME - because of concat() - but, because of intern(),
+                // DO reference the same string for the purposes of ==
+                String a = """
+                    In the beginning was the Word
+                    and the Word was with God.""";
+                String b = "In the beginning was the Word\n".concat("and the Word was with God.").intern();
+                return a == b;}, true),
             new Test(() -> {return 0;}, 0),
             new Test(() -> {return 0;}, 0),
             new Test(() -> {return 0;}, 0),
