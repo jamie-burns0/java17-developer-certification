@@ -15,6 +15,45 @@ public class CoreApisTest {
     public void testsToRun() {
 
         tests(
+            // String methods to know for the exam
+            // 
+            // +, +=
+            // intern(): String
+            // length(): int
+            // charAt(int): char   zero indexed.
+            // indexOf(int=>0x0000-0xFFFF)|String): int  zero indexed. -1 if not found
+            // substring(int|int, int): String
+            // toLowerCase(): String
+            // toUpperCase(): String
+            // equals(Object): boolean  if arg is not a String, returns false
+            // equalsIgnoreCase(String): boolean
+            // startsWith(String): boolean
+            // endsWith(String): boolean
+            // contains(CharSequence): boolean
+            // replace(char, char|CharSequence, CharSequence): String
+            // strip(): String  remove blank space from the beginning and end of the String
+            // trim(): String   remove blank space from the beginning and end of the String
+            // stripLeading(): String
+            // stripTrailing(): String
+            // indent(int): String - +ve add, -ve subtract, zero no change, normalises String, adds linebreak at end of String if there isn't one there already
+            // stripIndent(): String - remove all incidental whitespace
+            // translateEscapes(): String
+            // isEmpty(): boolean - ""
+            // isBlank(): boolean - "  "
+            // static format(String, Object...): String - %s any type, %d integer values, %f floating point values, %n line break
+            // formatted(Object...): String - "%s:%n score: %f out of %d".formatted("Jamie", 95.5, 100)
+
+            new Test(() -> {
+                // beware how + is interpreted when we mix numbers and string
+                // (1) BOTH operands numeric = addition
+                // (2) EITHER operand String = concatenation
+                // (3) work L-R
+                var a = 1 + 2 + "3"; // 3 + "3" = "33"
+                var b = "1" + 2 + 3; // "12" + 3 = "123"
+                var c = "1" + null;  // "1null"
+                var d = "1"; d += "2"; d += 3; // "123". This wouldn't work if var d = 1 because var would be an int
+                                               // and our first += would be trying to store a String in an int
+                return 0;}, 0),
             new Test(() -> {
                 // strings a and b are computed at COMPILE TIME and are the same 
                 // --> interned (added to String's string pool) 
@@ -146,6 +185,15 @@ public class CoreApisTest {
             // mismatch() | -1             | zero or +ve index
             //
             new Test(() -> {
+                int[] a = {1, 2, 3, 4, 5, 6};
+                int[] b = {1, 2, 3, 4, 5, 6};
+                return b.equals(a);}, false), // because an array is an object, we can call Object.equals(), 
+                                              // which returns true if both a and b refer to the same object, a == b - see next test
+        new Test(() -> {
+            int[] a = {1, 2, 3, 4, 5, 6};
+            int[] b = a;
+            return b.equals(a);}, true),
+/*            new Test(() -> {
                 int[] a = {1, 2, 3, 4, 5, 6};        // An array object holding ints
                 int[][] b = {{1,2}, {3}, {4, 5, 6}}; // An array object holding array objects holding ints. Each array in our array can be a different size.
                 int[][] c = new int[3][];
@@ -153,7 +201,7 @@ public class CoreApisTest {
                 b[1] = new int[] {3};
                 b[2] = new int[] {4, 5, 6};
                 return b.equals(c);}, true), // WHY IS THIS FALSE??
-            new Test(() -> {return 0;}, 0),
+*/            new Test(() -> {return 0;}, 0),
             new Test(() -> {return 0;}, 0),
             new Test(() -> {return 0;}, 0),
             new Test(() -> {return 0;}, 0),
