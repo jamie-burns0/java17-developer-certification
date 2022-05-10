@@ -56,6 +56,10 @@ public class CoreApisTest {
                     no3DayPeriodsFrom06May++;
                 } while (ld.getYear() == 2022);
                 return 80;}, 80),
+
+            // JLS - see https://docs.oracle.com/javase/specs/jls/se18/jls18.pdf
+            // Javadoc - see https://docs.oracle.com/en/java/javase/18/docs/api/index.html
+            
             new Test(() -> {return 0;}, 0),
             new Test(() -> {return 0;}, 0),
             new Test(() -> {return 0;}, 0),
