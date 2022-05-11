@@ -68,8 +68,61 @@ public class Chapter7Test {
                 System.out.println(InterfaceC.f());
 
                 return 0;}, 0),
-            new Test(() -> {return 0;}, 0),
-            new Test(() -> {return 0;}, 0),
+            new Test(() -> {
+                for (EnumA e : EnumA.values()) {
+                    var s = switch(e) {
+                        case APPLE -> EnumA.APPLE + "tree";
+                        case AFTER -> EnumA.AFTER + "dark";
+                        case ARK -> EnumA.ARK + "royal";
+                    };
+                    System.out.println(s);
+                }
+
+                for (EnumB e : EnumB.values()) {
+                    var s = switch(e) {
+                        case BRAN -> {yield EnumB.BRAN.use();}
+                        case BOT -> {yield EnumB.BOT.use();}
+                        case BUBBLE -> {yield EnumB.BUBBLE.use();}
+                    };
+                    System.out.println(s);
+                }
+
+                for (EnumC e : EnumC.values()) {
+                    var s = switch(e) {
+                        case CACOPHNY -> EnumC.CACOPHNY + "-" + EnumC.CACOPHNY.association();
+                        case COPPER -> EnumC.COPPER + "-" + EnumC.COPPER.association();
+                        case CATCH -> EnumC.CATCH + "-" + EnumC.CATCH.association();
+                    };
+                    System.out.println(s);
+                }
+
+                for (EnumD e : EnumD.values()) {
+                    Reverser r = switch(e) {
+                        case DESSERT -> e; // EnumD implements Reverser
+                        case DREADNOUGHT -> e;
+                        case DROUGHT -> e;
+                    };
+                    System.out.println(r.reverse());
+                }
+                
+                return 0;}, 0),
+            new Test(() -> {
+                RecordA a = new RecordA("A");
+                System.out.println(a.a());
+
+                RecordA a2 = new RecordA("A");
+                System.out.println(a.equals(a2));
+
+                RecordB b = new RecordB("bbBBbbBBbBbB");
+                System.out.println(b.b());
+
+                Reverser c = new RecordC("GobbledeGook");
+                System.out.println(c.reverse());
+
+                var d = new RecordD("jamie", "burns");
+                System.out.println(d.d());
+
+                return 0;}, 0),
             new Test(() -> {return 0;}, 0),
             new Test(() -> {return 0;}, 0),
             new Test(() -> {return 0;}, 0),
@@ -83,5 +136,13 @@ public class Chapter7Test {
             new Test(() -> {return 0;}, 0),
             new Test(() -> {return 0;}, 0)
         );
+    }
+
+    public void a() {
+        var a = switch(EnumA.AFTER) {
+            case APPLE -> "green";
+            case AFTER -> "dark";
+            case ARK -> "shark";
+        };
     }
 }
