@@ -1,4 +1,4 @@
-package me.jamieburns.tu12may;
+package me.jamieburns.th12may;
 
 @FunctionalInterface
 public interface LambdaC {

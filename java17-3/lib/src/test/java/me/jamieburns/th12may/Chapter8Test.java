@@ -1,4 +1,4 @@
-package me.jamieburns.tu12may;
+package me.jamieburns.th12may;
 
 import me.jamieburns.Test;
 
@@ -55,7 +55,7 @@ public class Chapter8Test {
                 new B().bb("B2", l);
                 new B().bb("B3", mr);
 
-                LambdaB l2 = o -> new DoNothing().withOneThing(o);
+                LambdaB l2 = o -> DoNothing.withOneThing(o);
                 LambdaB mr2 = DoNothing::withOneThing;
 
                 new B().bb("battleship", l2);
@@ -70,7 +70,7 @@ public class Chapter8Test {
                 // LambdaC.c(String, String):void - takes two String arguments, returns nothing
 
                 new C().cc("C1", "C2", (s1, s2) -> System.out.println(s1 + s2));
-                new C().cc("CAKE", "CAR", (s1, s2) -> new DoNothing().withTwoThings(s1, s2));
+                new C().cc("CAKE", "CAR", (s1, s2) -> DoNothing.withTwoThings(s1, s2));
                 new C().cc("CALM", "COOL", DoNothing::withTwoThings);
                  
                 return 0;}, 0),
@@ -204,15 +204,15 @@ public class Chapter8Test {
 
                 System.out.println(mr.apply().getClass().getName());
 
-                // our single abstract method takes one String and returns a String
-                // for (4), our *method reference* must be a constructor that takes one String and constructs a String
+                // our single abstract method takes one String and returns a StringBuilder
+                // for (4), our *method reference* must be a constructor that takes one String and constructs a StringBuilder
                 interface StringThing2 {
-                    String apply(String s);
+                    StringBuilder apply(String s);
                 }
 
                 String s = "Glorious";
 
-                StringThing2 mr2 = String::new;
+                StringThing2 mr2 = StringBuilder::new;
 
                 System.out.println(mr2.apply(s).toString());
 
@@ -237,11 +237,15 @@ public class Chapter8Test {
                 Consumer<String> mr = sl::add; // (2) instance method on an object
                 Consumer<String> l2 = s2 -> sb.append(s2);
                 Consumer<String> mr2 = sb::append; // (2) instance method on an object
+                Consumer<String> mr3 = String::toString; // (3) instance method on a parameter
+                Consumer<String> mr4 = String::valueOf; // (1) static method
 
                 l.accept("Wobbly");
                 mr.accept("Xray");
                 l2.accept("Yellow");
                 mr2.accept("Zombie");
+                mr3.accept("Admirable");
+                mr4.accept("Beautiful");
 
                 System.out.println(sb.toString());
                 System.out.println(sl.toString());
@@ -317,8 +321,10 @@ public class Chapter8Test {
                 // Function.apply(T):R
 
                 Function<String, Integer> l = s -> Integer.valueOf(s);
+                Function<String, Integer> mr = Integer::valueOf; // (1) static method
 
                 Integer i = l.apply("123");
+                Integer i2 = mr.apply("234");
 
                 System.out.println(i);
                 

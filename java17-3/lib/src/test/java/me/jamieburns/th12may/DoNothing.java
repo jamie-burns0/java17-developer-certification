@@ -1,4 +1,4 @@
-package me.jamieburns.tu12may;
+package me.jamieburns.th12may;
 
 public class DoNothing {
     static void withNothing() {System.out.println("doing nothing with nothing");}
