@@ -4,8 +4,10 @@ import me.jamieburns.Test;
 
 import static me.jamieburns.TestSupport.tests;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.function.*;
 
 public class Chapter8Test {
@@ -257,22 +259,150 @@ public class Chapter8Test {
                 return 0;}, 0),
             new Test(() -> {
                 // BooleanSupplier.getAsBoolean():boolean
+                // IntSupplier.getAsInt():int
+                // LongSupplier.getAsLong():long
+                // DoubleSupplier.gatAsDouble():double
 
                 BooleanSupplier bsl = () -> Math.floor(5.4) == 5.0;
                 System.out.println(bsl.getAsBoolean());
+
+                IntSupplier isl = () -> Integer.valueOf(123).intValue();
+                System.out.println(String.format("int is %06d", isl.getAsInt()));
+
+                DoubleSupplier dsl = () -> Double.valueOf(4.0 / 3);
+                System.out.println(String.format("double is %.2f", dsl.getAsDouble()));
+
+                LongSupplier lsl = () -> Long.valueOf(Math.round(Math.random() * 1_000_000));
+                System.out.println("long is " + NumberFormat.getCurrencyInstance(new Locale("en", "AU")).format(lsl.getAsLong()));
 
                 return 0;}, 0),
             new Test(() -> {
                 
                 return 0;}, 0),
-            new Test(() -> {return 0;}, 0),
-            new Test(() -> {return 0;}, 0),
-            new Test(() -> {return 0;}, 0),
-            new Test(() -> {return 0;}, 0),
-            new Test(() -> {return 0;}, 0),
-            new Test(() -> {return 0;}, 0),
-            new Test(() -> {return 0;}, 0),
-            new Test(() -> {return 0;}, 0),
+            new Test(() -> {
+                // IntConsumer.accept(int):void
+                // LongConsumer.accept(long):void
+                // DoubleConsumer.accept(double):void
+
+                IntConsumer icl = i -> System.out.println(String.format("consumed int %d", i));
+                icl.accept(123);
+
+                LongConsumer lcl = l -> System.out.println(String.format("consumed long %1d", l));
+                lcl.accept(Math.round(Math.random() * 1_000_000));
+                
+                DoubleConsumer dcl = (double d) -> System.out.println(String.format("consumed double %,.1f", d));
+                dcl.accept(Math.random() * 1_000_000);
+
+                return 0;}, 0),
+            new Test(() -> {
+                // IntPredicate.test(int):boolean
+                // LongPredicate...
+                // DoublePredicate...
+
+                IntPredicate ipl = i -> i % 2 == 0;
+                LongPredicate lpl = l -> l % 3 == 0;
+                DoublePredicate dpl = d -> d % 5 == 0;
+
+                for (Number n : new Number[] {5, 9L, 400.5}) {
+                    boolean b = switch(n.getClass().getTypeName()){
+                        case "java.lang.Integer" -> ipl.test(n.intValue());
+                        case "java.lang.Long" -> lpl.test(n.longValue());
+                        case "java.lang.Double" -> dpl.test(n.doubleValue());
+                        default -> false;
+                    };
+                    System.out.println("For " + n + " result is " + b);
+                }
+                return 0;}, 0),
+            new Test(() -> {
+                // IntFunction.apply(int):R
+                // LongFunction...
+                // DoubleFunction...
+
+                class A {
+                    public static final String a(Number n) {
+                        return "I'm happy with " + n;
+                    }
+                }
+
+                IntFunction<String> ifmr = A::a;
+                LongFunction<String> lfmr = A::a;
+                DoubleFunction<String> dfmr = A::a;
+
+                System.out.println(ifmr.apply(12345));
+                System.out.println(lfmr.apply(234567L));
+                System.out.println(dfmr.apply(400.5));
+
+                return 0;}, 0),
+            new Test(() -> {
+                // IntUnaryOperator.applyAsInt(int):int
+                // LongUnaryOperator...
+                // DoubleUnaryOperator...
+
+                IntUnaryOperator iuol = i -> ++i;
+                DoubleUnaryOperator duol = d -> ++d;
+
+                System.out.println(iuol.applyAsInt(123));
+                System.out.println(duol.applyAsDouble(3.5));
+
+                return 0;}, 0),
+            new Test(() -> {
+                // IntBinaryOperator.applyAsInt(int, int):int
+                // LongBinaryOperator...
+                // DoubleBinaryOperator...
+
+                DoubleBinaryOperator dbol = (var d1, var d2) -> (d1 + d2) * (d2 - d1);
+                System.out.println(dbol.applyAsDouble(3.5, 12.9));
+
+                return 0;}, 0),
+            new Test(() -> {
+                // ToIntFunction.applyAsInt(T):int
+                // ToLongFunction...
+                // ToDoubleFunction...
+
+                record A(int i, long l, double d) {}
+
+                class B {
+                    public static final int a(A a) {return a.i();}
+                    public static final long b(A a) {return a.l();}
+                    public static final double c(A a) {return a.d();}
+                }
+
+                ToIntFunction<A> tifmr = B::a;
+                ToLongFunction<A> tlfmr = B::b;
+                ToDoubleFunction<A> tdfmr = B::c;
+
+                A a = new A(123, 456L, 78.9);
+
+                System.out.println(tifmr.applyAsInt(a));
+                System.out.println(tlfmr.applyAsLong(a));
+                System.out.println(tdfmr.applyAsDouble(a));
+
+                return 0;}, 0),
+            new Test(() -> {
+                // ToIntBiFunction.applyAsInt(T, U):int
+                // ToLongBiFunction.applyAsLong(T, U):int 
+                // ToDoubleBiFunction...
+
+                // DoubleToIntFunction.applyAsInt(double):int
+                // LongToIntFunction.applyAsInt(long):int
+                // IntToLongFunction.applyAsLong(int):long
+                // DoubleToLongFunction.applyAsLong(double):long
+                // IntToDoubleFunction...
+                // LongToDoubleFunction...
+
+                return 0;}, 0),
+            new Test(() -> {
+                // ObjIntConsumer.accept(T, int):void
+                // ObjLongConsumer...
+                // ObjDoubleConsumer...
+
+                record A(String s) {}
+
+                ObjIntConsumer<A> oicl = (final A a, int i) -> System.out.println(Integer.valueOf(a.s()).intValue() == i);
+                oicl.accept(new A("123"), 123);
+                oicl.accept(new A("123"), 234);
+
+                return 0;}, 0),
             new Test(() -> {return 0;}, 0),
             new Test(() -> {return 0;}, 0),
             new Test(() -> {return 0;}, 0),
