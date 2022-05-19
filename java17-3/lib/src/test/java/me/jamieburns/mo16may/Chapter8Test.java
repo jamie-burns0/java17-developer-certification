@@ -403,7 +403,9 @@ public class Chapter8Test {
                 oicl.accept(new A("123"), 234);
 
                 return 0;}, 0),
-            new Test(() -> {return 0;}, 0),
+            new Test(() -> {
+
+                return 0;}, 0),
             new Test(() -> {return 0;}, 0),
             new Test(() -> {return 0;}, 0),
             new Test(() -> {return 0;}, 0),
