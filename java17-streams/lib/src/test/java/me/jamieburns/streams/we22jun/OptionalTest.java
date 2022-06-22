@@ -18,7 +18,8 @@ public static void main(String[] args) {
                 return 1L;}, Long.valueOf("1")),
             new Test<Exception>(() -> {
                 return new Exception();}, new Exception(), (Exception a, Exception b) -> a.getClass().equals(b.getClass())),
-            new Test<String>(() -> {return "";}, ""),
+            new Test<String>(() -> {
+                return "";}, ""),
             new Test<>(() -> {return 0;}, 0),
             new Test<>(() -> {return 0;}, 0),
             new Test<>(() -> {return 0;}, 0),                

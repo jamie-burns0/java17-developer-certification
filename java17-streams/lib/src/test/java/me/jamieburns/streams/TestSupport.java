@@ -26,24 +26,15 @@ public final class TestSupport {
      * runtime. For the purposes of this exercise, we are prepared to make that
      * compromise.
      */
-    @SuppressWarnings({"rawtypes", "unchecked"})
+    //@SuppressWarnings({"rawtypes", "unchecked"})
     public final static void tests(Test<?>... testArray) {
         int testCount = 0;
         for (Test<?> test : testArray) {
             Object result = test.tester().test();
             Object expectedResult = test.expectedResult();
+            BiPredicate<Object, Object> predicate = (a, b) -> a.equals(b);
             System.out.println(++testCount + ": " + result + ", " + result.getClass().getSimpleName());
-            boolean assertTest = false;
-            BiPredicate<Object, Object> defaultBiPredicate = (Object a, Object b) -> a.equals(b);
-            if(test.optional().isPresent()) {
-                // use the BiPredicate provided by test
-                BiPredicate predicate = test.optional().get();    
-                assertTest = predicate.test(result, expectedResult);
-            } else {
-                // use our default BiPredicate
-                assertTest = defaultBiPredicate.test(result, expectedResult);
-            }
-            assertTrue(assertTest, test.toString());
+            assertTrue(predicate.test(result, expectedResult), test.toString());
         }
     }
 }
