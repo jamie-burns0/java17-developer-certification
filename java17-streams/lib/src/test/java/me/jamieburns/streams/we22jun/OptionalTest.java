@@ -16,12 +16,14 @@ public static void main(String[] args) {
         tests(
             new Test<Long>(() -> {
                 return 1L;}, Long.valueOf("1")),
-            /*new Test<Exception>(() -> {
-                return new Exception();}, new Exception(), (Exception a, Exception b) -> a.getClass().equals(b.getClass())),*/
+            new Test<Exception>(() -> {
+                return new Exception();}, new Exception(), (Exception a, Exception b) -> a.getClass().equals(b.getClass())),
             new Test<String>(() -> {
                 return "";}, ""),
-            new Test<>(() -> {return 0;}, 0),
-            new Test<>(() -> {return 0;}, 0),
+            new Test<Double>(() -> {
+                return null;}, null),
+            new Test<>(() -> {
+                return "a";}, "a"),
             new Test<>(() -> {return 0;}, 0),                
             new Test<>(() -> {return 0;}, 0),
             new Test<>(() -> {return 0;}, 0),
