@@ -4,8 +4,6 @@ import static me.jamieburns.streams.TestSupport.tests;
 
 import java.util.List;
 import java.util.Random;
-import java.util.function.Predicate;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
