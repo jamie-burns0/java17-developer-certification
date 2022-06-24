@@ -27,6 +27,7 @@ public final class TestSupport2 {
      * compromise.
      */
     @SuppressWarnings({"rawtypes", "unchecked"})
+    @SafeVarargs
     public final static void tests(Test2<?>... testArray) {
         int testCount = 0;
         for (Test2<?> test : testArray) {
