@@ -125,22 +125,23 @@ public class StreamsTest {
                     FilterValueFunction doNothingFn = (r, c, a) -> a[r][c];
                     FilterValueFunction inversionFn = (r, c, a) -> a[r][a[r].length - c - 1];
                     FilterValueFunction blurFn = (r, c, a) -> {
-                        double average = 0;
-                        int[] rows = IntStream.of(a.length - 1, a.length, a.length + 1)
-                            .filter(r2 -> {System.out.println("1: " + r2); return r2 >= 0;})
-                            .filter(r2 -> {System.out.println("2: " + r2); return r2 < a.length;})
+                        int[] rows = IntStream.of(r - 1, r, r + 1)
+                            .filter(r2 -> r2 >= 0)
+                            .filter(r2 -> r2 < a.length)
                             .toArray();
-                        int[] cols = IntStream.of(a[0].length - 1, a[0].length, a[0].length + 1)
-                            .filter(c2 -> {System.out.println("3: " + c2); return c2 >= 0;})
-                            .filter(c2 -> {System.out.println("4: " + c2); return c2 < a[0].length;})
+                        int[] cols = IntStream.of(c - 1, c, c + 1)
+                            .filter(c2 -> c2 >= 0)
+                            .filter(c2 -> c2 < a[0].length)
                             .toArray();
                         
+                        int total = 0;
+
                         for (int r3 : rows) {
                             for (int c3 : cols) {
-                                System.out.println("5: " + r3 + ", " + c3);
+                                total += a[r3][c3];
                             }
                         }
-                        return a[0][0];
+                        return (int)Math.round(total / (rows.length + cols.length));
                     };
                     
                     int[][] applyFilter(int width, int height, int filter, int[][] color) {
@@ -161,11 +162,26 @@ public class StreamsTest {
 
                         return filtered;
                     }
+
+                    String prettyPrint(int[][] a) {
+                        for (int r = 0; r < a.length; r++) {
+                            for (int c = 0; c < a[r].length; c++) {
+                                System.out.print(a[r][c] + " ");
+                            }
+                            System.out.println("");
+                        }
+                        return "";
+                    }
                 }
 
                 int[][] a = {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}};
-
-                new Solution().applyFilter(a[0].length, a.length, 2, a);
+                new Solution().prettyPrint(a);
+                int[][] f1 = new Solution().applyFilter(a[0].length, a.length, 1, a);
+                System.out.println("---");
+                new Solution().prettyPrint(f1);
+                int[][] f2 = new Solution().applyFilter(a[0].length, a.length, 2, a);
+                System.out.println("---");
+                new Solution().prettyPrint(f2);
                 
                 return 0;}, 0),
             new Test<>(() -> {return 0;}, 0),
