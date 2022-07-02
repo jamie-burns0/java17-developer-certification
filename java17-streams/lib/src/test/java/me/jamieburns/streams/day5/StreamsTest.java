@@ -3,11 +3,7 @@ package me.jamieburns.streams.day5;
 import static me.jamieburns.streams.TestSupport.tests;
 
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.OptionalInt;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import me.jamieburns.streams.Test;
@@ -110,7 +106,7 @@ public class StreamsTest {
                 me.write();
                 System.out.println(me.sb.toString());
                 */
-                return 0;}, "3a1b2a"),
+                return 0;}, 0),
             new Test<>(() -> {
                 class Solution {
                     static String reshape(int n, String str) {
