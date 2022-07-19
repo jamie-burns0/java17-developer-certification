@@ -53,7 +53,31 @@ public class StreamsTest {
                 );
                 result.print();
                 return 0;}, 0),
-            new Test<>(() -> {return 0;}, 0),
+            new Test<>(() -> {
+                interface A {
+                    int apply(String s1, String s2);
+                }
+
+                interface B {
+                    int apply(String s);
+                }
+
+                String abc = "abc";
+                String def = "def";
+
+                A a = (s1, s2) -> s1.compareTo(s2);
+                A a2 = String::compareTo;
+                B b = abc::compareTo;
+                
+                int r1 = a.apply(abc, def);
+                int r2 = a2.apply(abc, def);
+                int r3 = b.apply(def);
+
+                System.out.println(r1);
+                System.out.println(r2);
+                System.out.println(r3);
+
+                return 0;}, 0),
             new Test<>(() -> {return 0;}, 0),
             new Test<>(() -> {return 0;}, 0),
             new Test<>(() -> {return 0;}, 0),
