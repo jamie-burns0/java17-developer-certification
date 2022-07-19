@@ -1,4 +1,4 @@
-package me.jamieburns.streams.day5;
+package me.jamieburns.streams.nasdaq;
 
 import static me.jamieburns.streams.TestSupport.tests;
 
