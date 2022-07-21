@@ -15,20 +15,22 @@ public class TransactionDataAccumulator implements BiConsumer<Map<String, Map<Do
         priceMap.computeIfAbsent(td.price(), k -> Long.valueOf(0));
 
         // update our price count
-        
-        // What should we do if td.price.count != 0? We could add any count to
-        // the price in our map, or we could flag this is unexpected and bail
-        // out here. For now, let's assume everything is well behaved and count
-        // will be 0 (zero)
 
-        priceMap.compute(td.price(), (k, v) -> {
+        priceMap.compute(td.price(), (price, count) -> {
             return switch(td.action()) {
-                case TRADE -> ++v;
-                case CANCEL -> --v;
+                case TRADE -> ++count;
+                case CANCEL -> --count;
             };
         });
 
         // if our price count is now 0 (zero), let's remove it from the map
+
+        // NOTE: Our accumulator should usable in a parallel context. For example,
+        // say, for a price, we have a TRADE and then later a CANCEL. In a parallel
+        // context, it's possible, and normal, that one accumlator handles the
+        // TRADE while another accumulator handles the CANCEL. So while, we are
+        // removing a price with a 0 (zero) count, we should expect that we will
+        // have prices with -ve counts.
 
         long count = (Long)priceMap.get(td.price()).longValue();
 
