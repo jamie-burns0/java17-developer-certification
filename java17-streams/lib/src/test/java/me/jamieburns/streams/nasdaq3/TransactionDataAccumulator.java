@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.BiConsumer;
 
-public class AccumulatingBiConsumer implements BiConsumer<Map<String, Map<Double, Long>>, TransactionData> {
+public class TransactionDataAccumulator implements BiConsumer<Map<String, Map<Double, Long>>, TransactionData> {
     @Override
     public void accept(Map<String, Map<Double, Long>> stockMap, final TransactionData td) {
 
