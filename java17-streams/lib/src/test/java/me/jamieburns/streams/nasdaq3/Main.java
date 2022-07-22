@@ -17,7 +17,8 @@ public class Main {
             accumulator, 
             combiner, 
             finisher, 
-            Collector.Characteristics.UNORDERED);        
+            Collector.Characteristics.UNORDERED,
+            Collector.Characteristics.CONCURRENT);        
 
         SortedSet<MinMaxPrice> minMaxPriceSet = new DataSource().data.stream()
             .parallel() 
